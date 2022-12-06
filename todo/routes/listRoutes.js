@@ -11,5 +11,7 @@ router
 router
       .route('/:id')
       .get(listController.getById)
-      .delete(listController.delteList)
+      .delete(listController.deleteList)
       .put(listController.updateList)
+
+      export default router

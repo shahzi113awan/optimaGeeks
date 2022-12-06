@@ -11,5 +11,7 @@ router
 router
       .route('/:id')
       .get(todoController.getById)
-      .delete(todoController.delteTodo)
+      .delete(todoController.deleteTodo)
       .put(todoController.updateTodo)
+
+      export default router

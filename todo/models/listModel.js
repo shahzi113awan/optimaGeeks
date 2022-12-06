@@ -13,4 +13,5 @@ const listSchema  = mongoose.Schema({
 
 })
 
-module.exports  = mongoose.model("Todo",listSchema)
+const list  = mongoose.model("List",listSchema)
+export default list

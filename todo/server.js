@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
-import app from '/app.js'
+import app from './app.js'
 import mongoose from 'mongoose'
-dotenv.config({path:'./config.env  '})
+dotenv.config({path:'./config.env'})
 mongoose.connect(process.env.DATABASE_URL,{
 
 }).then(()=>{

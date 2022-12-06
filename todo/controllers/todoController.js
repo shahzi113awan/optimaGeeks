@@ -1,18 +1,17 @@
-import List from '../models/listModel.js'
+import Todo from '../models/todoModel.js'
+import list from '../models/listModel.js'
 
-const getList = async (req,res)=>{
+const getTodo = async (req,res)=>{
     try {
-        const lists= await List.find().populate("todos")
-        // console.log(lists)
+        const Todos= await Todo.find()
         res
         .status(200)
         .json({
             status:"200",
-            data:lists
+            data:Todos
         })
 
     } catch (err) {
-        console.log(err)
         res
         .status(400)
         .json({
@@ -21,16 +20,21 @@ const getList = async (req,res)=>{
         })
     }
 }
-const createList = async(req,res)=>{
+const createTodo = async(req,res)=>{
     try {
-        await List.create(req.body)
+        const data =   await Todo.create(req.body)
+        await list.findByIdAndUpdate(
+            req.body.listId,
+            {$push:{todos:data._id}},
+            { new: true, useFindAndModify: false }
+        )
         res
         .status(200)
         .json({
             status:"200",
             data:"Added Successfully"
         })
-    } catch (error) {
+    } catch (err) {
         res
         .status(400)
         .json({
@@ -42,12 +46,12 @@ const createList = async(req,res)=>{
 const getById = async (req,res)=>{
 
     try {
-        const list = List.findOne({_id:req.params.id})
+        const Todo = Todo.findOne({_id:req.params.id})
         res
         .status(200)
         .json({
             status:"200",
-            data:list
+            data:Todo
         })
         
     } catch (err) {
@@ -60,16 +64,16 @@ const getById = async (req,res)=>{
     }
 }
 
-const updateList = async (req,res)=>{
+const updateTodo = async (req,res)=>{
     try {
-        const list  = await List.findByIdAndUpdate(req.params.id,req.body,{
+        const Todo  = await Todo.findByIdAndUpdate(req.params.id,req.body,{
             new:true
         })
         res
         .status(200)
         .json({
             status:"200",
-            data:list
+            data:Todo
         })
     } catch (err) {
         res
@@ -81,9 +85,9 @@ const updateList = async (req,res)=>{
     }
 }
 
-const deleteList = async (req,res)=>{
+const deleteTodo = async (req,res)=>{
     try {
-        await List.findOneAndDelete({_id:req.params.id})
+        await Todo.findOneAndDelete({_id:req.params.id})
         res
         .status(200)
         .json({
@@ -100,8 +104,8 @@ const deleteList = async (req,res)=>{
     }
 }
 
-const listController = {
-    getById,getList,updateList,deleteList,createList
+const TodoController = {
+    getById,getTodo,updateTodo,deleteTodo,createTodo
 }
 
-export default listController
+export default TodoController
